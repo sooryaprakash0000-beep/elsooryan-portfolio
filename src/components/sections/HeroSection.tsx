@@ -1,19 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { MoveDown } from "lucide-react";
+import { MoveDown, Terminal } from "lucide-react";
 
 export default function HeroSection() {
   const title = "ELSOORYAN";
-  const subtitle = "Creative Developer";
+  const subtitle = "DEVELOPER";
 
-  // Stagger variants for letter-by-letter entrance
   const containerVariants = {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.12,
-        delayChildren: 0.4,
+        staggerChildren: 0.1,
+        delayChildren: 0.2,
       },
     },
   };
@@ -21,9 +20,9 @@ export default function HeroSection() {
   const letterVariants = {
     hidden: {
       opacity: 0,
-      y: 100,
-      scale: 2.5,
-      filter: "blur(15px)",
+      y: 80,
+      scale: 2,
+      filter: "blur(12px)",
     },
     visible: {
       opacity: 1,
@@ -32,83 +31,84 @@ export default function HeroSection() {
       filter: "blur(0px)",
       transition: {
         type: "spring" as const,
-        damping: 10,
-        stiffness: 100,
+        damping: 12,
+        stiffness: 90,
       },
     },
   };
 
   return (
     <section className="relative w-full min-h-screen flex flex-col justify-center items-center px-4 overflow-hidden select-none">
-      {/* Cinematic HUD overlay elements */}
-      <div className="absolute top-8 left-8 flex items-center gap-3 text-xs tracking-[0.3em] text-zinc-500 font-orbitron">
-        <span className="w-1.5 h-1.5 rounded-full bg-brand-cyan animate-ping" />
-        <span>SYS.STATUS: ONLINE</span>
+      {/* Cinematic HUD elements */}
+      <div className="absolute top-8 left-8 flex items-center gap-3 text-[10px] tracking-[0.3em] text-zinc-500 font-orbitron">
+        <span className="w-1.5 h-1.5 rounded-full bg-brand-purple animate-ping shadow-[0_0_8px_#7B2EFF]" />
+        <span>SYSTEM.CORE: INITIALIZED</span>
       </div>
       
-      <div className="absolute top-8 right-8 text-xs tracking-[0.3em] text-zinc-500 font-orbitron">
-        <span>DIMENSION: EL-09</span>
+      <div className="absolute top-8 right-8 text-[10px] tracking-[0.3em] text-zinc-500 font-orbitron flex items-center gap-1">
+        <Terminal className="w-3.5 h-3.5 text-zinc-500" />
+        <span>SEC_LEVEL.GOJO_99</span>
       </div>
 
-      <div className="flex flex-col items-center text-center">
+      <div className="flex flex-col items-center justify-center text-center w-full px-6 z-10">
         {/* Main Title - ELSOORYAN */}
         <motion.h1
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-black font-syne tracking-wider text-white select-text relative cursor-default filter drop-shadow-[0_0_30px_rgba(189,0,255,0.3)]"
+          className="font-black font-syne text-white text-center whitespace-nowrap leading-none tracking-[0.03em] drop-shadow-[0_0_35px_rgba(123,46,255,0.4)] text-[clamp(2.5rem,8vw,9rem)]"
         >
           {title.split("").map((letter, idx) => (
             <motion.span
               key={idx}
               variants={letterVariants}
-              className="inline-block hover:text-brand-cyan hover:drop-shadow-[0_0_35px_#00f3ff] transition-all duration-300"
+              className="inline-block hover:text-brand-violet hover:drop-shadow-[0_0_40px_#d946ef] transition-all duration-300 transform hover:-translate-y-2"
             >
               {letter}
             </motion.span>
           ))}
         </motion.h1>
 
-        {/* Subtitle - Creative Developer */}
+        {/* Subtitle - Discord Bot Developer */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.8, filter: "blur(10px)" }}
+          initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-          transition={{ delay: 1.8, duration: 0.8 }}
+          transition={{ delay: 1.4, duration: 0.8 }}
           className="mt-6 flex flex-col items-center"
         >
-          <p className="text-sm sm:text-base md:text-lg font-orbitron tracking-[0.6em] text-brand-cyan uppercase animate-energy-pulse">
+          <p className="text-xs sm:text-sm md:text-base font-orbitron tracking-[0.6em] text-brand-purple uppercase animate-energy-pulse">
             {subtitle}
           </p>
 
-          {/* Glowing dividing line */}
-          <div className="w-24 h-[1px] bg-gradient-to-r from-transparent via-brand-cyan to-transparent my-6 relative shadow-[0_0_10px_#00f3ff]" />
+          {/* Glowing purple dividing line */}
+          <div className="w-32 h-[1px] bg-gradient-to-r from-transparent via-brand-purple to-transparent my-6 relative shadow-[0_0_12px_#7B2EFF]" />
           
-          <p className="max-w-md text-xs sm:text-sm text-zinc-400 font-sans tracking-wide leading-relaxed">
-            Architecting reality bending interactive WebGL worlds, bending physics, and transcending dimensions.
+          <p className="max-w-xl text-xs sm:text-sm text-zinc-400 font-sans tracking-wide leading-relaxed font-light px-4">
+            Forging highly scalable bot systems, interactive interfaces, and automation nodes that reside in the digital shadows.
           </p>
         </motion.div>
       </div>
 
-      {/* Floating scroll indicator */}
+      {/* Floating down scroll indicator */}
       <motion.div
         initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 0.7, y: 0 }}
+        animate={{ opacity: 0.8, y: 0 }}
         transition={{
-          delay: 2.5,
-          duration: 0.8,
+          delay: 2.0,
+          duration: 0.9,
           repeat: Infinity,
           repeatType: "reverse",
         }}
-        className="absolute bottom-10 flex flex-col items-center gap-2 cursor-pointer font-orbitron text-[10px] tracking-[0.3em] text-zinc-500 hover:text-brand-cyan transition-colors"
         onClick={() => {
-          window.scrollTo({
-            top: window.innerHeight,
-            behavior: "smooth",
-          });
+          const aboutSection = document.getElementById("about");
+          if (aboutSection) {
+            aboutSection.scrollIntoView({ behavior: "smooth" });
+          }
         }}
+        className="absolute bottom-10 flex flex-col items-center gap-2 cursor-pointer font-orbitron text-[10px] tracking-[0.3em] text-zinc-500 hover:text-brand-purple transition-colors pointer-events-auto"
       >
-        <span>ENTER THE BATTLEFIELD</span>
-        <MoveDown className="w-4 h-4 text-brand-cyan mt-1" />
+        <span>ACCESS CORE MODULES</span>
+        <MoveDown className="w-4 h-4 text-brand-purple mt-1 animate-bounce" />
       </motion.div>
     </section>
   );

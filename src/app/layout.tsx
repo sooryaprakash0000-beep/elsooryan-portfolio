@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Syne, Orbitron, Inter } from "next/font/google";
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
+import CustomCursor from "@/components/CustomCursor";
 
 const syne = Syne({
   variable: "--font-syne",
@@ -21,8 +22,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "ELSOORYAN | Creative Developer",
-  description: "An anti-gravity, anime-inspired 3D portfolio website of ELSOORYAN, Creative Developer.",
+  title: "ELSOORYAN | Discord Bot & Web Developer Portfolio",
+  description: "Enter Gojo's Hollow Purple collision: an ultra-premium, cinematic 3D portfolio of Elsooryan, specialist in Discord bots, automation, and modern web application development.",
+  keywords: ["Elsooryan", "Discord Bot Developer", "Web Developer", "Three.js Portfolio", "Jujutsu Kaisen", "Creative Coder", "Next.js Portfolio"],
 };
 
 export default function RootLayout({
@@ -35,7 +37,11 @@ export default function RootLayout({
       lang="en"
       className={`${syne.variable} ${orbitron.variable} ${inter.variable} dark h-full antialiased scroll-smooth`}
     >
-      <body className="min-h-full bg-black text-white font-sans overflow-x-hidden">
+      <body className="min-h-full bg-[#050505] text-white font-sans overflow-x-hidden">
+        {/* Custom cursor overlay (Desktop only, hidden on mobile via CSS) */}
+        <CustomCursor />
+        
+        {/* Lenis smooth scrolling container */}
         <SmoothScroll>{children}</SmoothScroll>
       </body>
     </html>

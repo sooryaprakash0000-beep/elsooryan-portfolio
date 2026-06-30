@@ -1,49 +1,117 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, Layers, Cpu, Compass } from "lucide-react";
+import { Sparkles, Layers, Cpu, Database } from "lucide-react";
+import React, { useRef } from "react";
 
 const skillCategories = [
   {
-    title: "Dimensional Frontend",
+    title: "Interface Engineering",
     icon: Layers,
     color: "text-brand-cyan",
     borderColor: "hover:border-brand-cyan/40",
-    shadowColor: "rgba(0, 243, 255, 0.2)",
-    skills: ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "Framer Motion", "GSAP", "HTML5/CSS3"],
+    shadowColor: "rgba(96, 165, 250, 0.25)",
+    skills: ["HTML", "CSS", "JavaScript", "TypeScript", "React", "Next.js"],
+  },
+  {
+    title: "Logic & Automation",
+    icon: Cpu,
+    color: "text-brand-purple",
+    borderColor: "hover:border-brand-purple/40",
+    shadowColor: "rgba(123, 46, 255, 0.25)",
+    skills: ["Node.js", "Express", "Discord.js", "REST APIs"],
+  },
+  {
+    title: "Storage & Devops",
+    icon: Database,
+    color: "text-brand-cyan",
+    borderColor: "hover:border-brand-cyan/40",
+    shadowColor: "rgba(96, 165, 250, 0.25)",
+    skills: ["MongoDB", "Firebase", "Git"],
   },
   {
     title: "Creative Physics",
     icon: Sparkles,
     color: "text-brand-purple",
     borderColor: "hover:border-brand-purple/40",
-    shadowColor: "rgba(189, 0, 255, 0.2)",
-    skills: ["Three.js", "React Three Fiber", "Drei / Postprocessing", "GLSL Custom Shaders", "Raymarching", "WebGL APIs", "GSAP ScrollTrigger"],
-  },
-  {
-    title: "Singularity Backend",
-    icon: Cpu,
-    color: "text-brand-cyan",
-    borderColor: "hover:border-brand-cyan/40",
-    shadowColor: "rgba(0, 243, 255, 0.2)",
-    skills: ["Node.js / Express", "GraphQL / REST", "WebSockets / Socket.io", "Python", "PostgreSQL / MongoDB", "Redis Caching", "Serverless APIs"],
-  },
-  {
-    title: "Aura Architecture",
-    icon: Compass,
-    color: "text-brand-purple",
-    borderColor: "hover:border-brand-purple/40",
-    shadowColor: "rgba(189, 0, 255, 0.2)",
-    skills: ["Docker Containers", "Git / GitHub Actions", "CI/CD Pipelines", "Vercel / AWS", "Vite / Webpack", "Lighthouse Perf Opt", "Web Security"],
+    shadowColor: "rgba(123, 46, 255, 0.25)",
+    skills: ["UI/UX", "Animations", "Responsive Design"],
   },
 ];
+
+function SkillCard({ cat }: { cat: typeof skillCategories[0] }) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const Icon = cat.icon;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const card = cardRef.current;
+    const box = card.getBoundingClientRect();
+    
+    // Relative coordinates
+    const x = e.clientX - box.left - box.width / 2;
+    const y = e.clientY - box.top - box.height / 2;
+    
+    // 3D rotations based on cursor
+    const rotateX = -(y / (box.height / 2)) * 8;
+    const rotateY = (x / (box.width / 2)) * 8;
+    
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
+    card.style.boxShadow = `0 15px 40px 0 ${cat.shadowColor}`;
+  };
+
+  const handleMouseLeave = () => {
+    if (!cardRef.current) return;
+    const card = cardRef.current;
+    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+    card.style.boxShadow = `0 8px 32px 0 rgba(0, 0, 0, 0.5)`;
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      className={`glass-panel p-6 flex flex-col gap-4 relative overflow-hidden transition-all duration-350 border border-white/5 ${cat.borderColor} cursor-default`}
+      style={{
+        transformStyle: "preserve-3d",
+        transition: "transform 0.1s ease-out, box-shadow 0.3s ease",
+      }}
+    >
+      <div className="flex items-center gap-3" style={{ transform: "translateZ(30px)" }}>
+        <div className={`p-2 rounded-lg bg-zinc-950/80 border border-white/5 ${cat.color} shadow-[0_0_15px_rgba(255,255,255,0.02)]`}>
+          <Icon className="w-5 h-5" />
+        </div>
+        <h3 className="font-bold font-syne text-lg text-white tracking-wide">
+          {cat.title}
+        </h3>
+      </div>
+
+      <div className="w-full h-[1px] bg-white/5 my-2" style={{ transform: "translateZ(10px)" }} />
+
+      <div className="flex flex-wrap gap-2.5 mt-1" style={{ transform: "translateZ(20px)" }}>
+        {cat.skills.map((skill, sIdx) => (
+          <span
+            key={sIdx}
+            className="px-3.5 py-1 text-xs font-orbitron rounded-full bg-zinc-950/85 border border-white/5 text-zinc-400 hover:text-white hover:border-brand-purple/40 hover:shadow-[0_0_12px_rgba(123,46,255,0.25)] transition-all duration-300 cursor-default"
+          >
+            {skill}
+          </span>
+        ))}
+      </div>
+
+      {/* Futuristic holographic grid background pattern */}
+      <div className="absolute inset-0 energy-grid opacity-[0.08] pointer-events-none -z-10" />
+    </div>
+  );
+}
 
 export default function SkillsSection() {
   const containerVariants = {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.1,
+        staggerChildren: 0.12,
       },
     },
   };
@@ -62,8 +130,8 @@ export default function SkillsSection() {
       filter: "blur(0px)",
       transition: {
         type: "spring" as const,
-        damping: 15,
-        stiffness: 90,
+        damping: 16,
+        stiffness: 85,
       },
     },
   };
@@ -71,6 +139,7 @@ export default function SkillsSection() {
   return (
     <section className="relative w-full min-h-screen flex flex-col justify-center items-center px-6 py-24 select-none">
       <div className="max-w-5xl w-full flex flex-col gap-12">
+        
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
@@ -79,13 +148,13 @@ export default function SkillsSection() {
           transition={{ duration: 0.6 }}
           className="flex flex-col"
         >
-          <span className="text-xs font-orbitron tracking-[0.4em] text-brand-cyan mb-2">
-            SEC.02 // POWER GRID
+          <span className="text-xs font-orbitron tracking-[0.4em] text-brand-purple mb-2">
+            SEC.02 // KNOWLEDGE GRID
           </span>
           <h2 className="text-3xl sm:text-5xl font-extrabold font-syne text-white tracking-wide">
             SKILL CRYSTALS
           </h2>
-          <div className="w-16 h-[2px] bg-brand-cyan mt-4 shadow-[0_0_8px_#00f3ff]" />
+          <div className="w-16 h-[2px] bg-brand-purple mt-4 shadow-[0_0_10px_#7B2EFF]" />
         </motion.div>
 
         {/* Skill Cards grid */}
@@ -96,48 +165,11 @@ export default function SkillsSection() {
           viewport={{ once: true, margin: "-120px" }}
           className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full"
         >
-          {skillCategories.map((cat, idx) => {
-            const Icon = cat.icon;
-            return (
-              <motion.div
-                key={idx}
-                variants={cardVariants}
-                className={`glass-panel p-6 flex flex-col gap-4 relative overflow-hidden transition-all duration-500 border border-white/5 ${cat.borderColor}`}
-                style={{
-                  transformStyle: "preserve-3d",
-                }}
-                whileHover={{
-                  y: -5,
-                  boxShadow: `0 12px 40px 0 ${cat.shadowColor}`,
-                }}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`p-2 rounded-lg bg-zinc-950/80 border border-white/5 ${cat.color} shadow-[0_0_15px_rgba(255,255,255,0.02)]`}>
-                    <Icon className="w-5 h-5" />
-                  </div>
-                  <h3 className="font-bold font-syne text-lg text-white tracking-wide">
-                    {cat.title}
-                  </h3>
-                </div>
-
-                <div className="w-full h-[1px] bg-white/5 my-2" />
-
-                <div className="flex flex-wrap gap-2 mt-1">
-                  {cat.skills.map((skill, sIdx) => (
-                    <span
-                      key={sIdx}
-                      className="px-3 py-1 text-xs font-orbitron rounded-full bg-zinc-950/80 border border-white/5 text-zinc-400 hover:text-white hover:border-brand-cyan/30 hover:shadow-[0_0_10px_rgba(0,243,255,0.15)] transition-all duration-300 cursor-default"
-                    >
-                      {skill}
-                    </span>
-                  ))}
-                </div>
-
-                {/* Subtly animated holographic grid overlay background */}
-                <div className="absolute inset-0 energy-grid opacity-[0.08] pointer-events-none -z-10" />
-              </motion.div>
-            );
-          })}
+          {skillCategories.map((cat, idx) => (
+            <motion.div key={idx} variants={cardVariants}>
+              <SkillCard cat={cat} />
+            </motion.div>
+          ))}
         </motion.div>
       </div>
     </section>

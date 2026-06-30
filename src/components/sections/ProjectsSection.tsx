@@ -1,74 +1,92 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ExternalLink, Terminal } from "lucide-react";
-import React, { useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ExternalLink, Terminal, X, Code, Play } from "lucide-react";
+import React, { useRef, useState } from "react";
 
 const projects = [
   {
     id: "PRJ.001",
-    title: "AURA_ENGINE",
-    description: "An advanced WebGL GPU fluid dynamics simulation that renders interactive energy fields, reacting in real-time to pointer movements and canvas physics.",
-    tags: ["Three.js", "GLSL Shaders", "WebGL", "TypeScript"],
-    color: "from-brand-cyan via-brand-blue to-transparent",
-    glow: "rgba(0, 243, 255, 0.4)",
-    borderColor: "hover:border-brand-cyan/40",
+    title: "NEXUS_DISCORD_BOT",
+    description: "An advanced modular Discord bot core utilizing discord.js v14, offering full shard synchronization, caching metrics, and custom dashboard API endpoints.",
+    tags: ["Discord.js", "Node.js", "Redis", "TypeScript"],
+    color: "from-brand-purple via-brand-violet to-transparent",
+    glow: "rgba(123, 46, 255, 0.45)",
+    borderColor: "hover:border-brand-purple/40",
+    previewText: "ACTIVE CORE DISPATCHER OK",
+    details: "This modular Discord bot is designed for high-performance servers, handling millions of requests with low-latency shard manager clusters. It connects with Redis for distributed caching, PostgreSQL for persistent states, and provides clean REST API gateways for frontend stats synchronization."
   },
   {
     id: "PRJ.002",
-    title: "KINETIC_PORTAL",
-    description: "A reality-bending, dimensional scrolling framework utilizing GSAP ScrollTrigger, Lenis, and custom vertex distortion shaders to morph layouts on scroll.",
-    tags: ["Next.js", "GSAP", "Three.js", "Postprocessing"],
-    color: "from-brand-purple via-brand-blue to-transparent",
-    glow: "rgba(189, 0, 255, 0.4)",
-    borderColor: "hover:border-brand-purple/40",
+    title: "AURA_VISUAL_CORE",
+    description: "A highly interactive WebGL space simulation that renders complex GPU fluid simulation and volumetric dust fields reacting directly to mouse/touch points.",
+    tags: ["Next.js", "Three.js", "GLSL Shaders", "GSAP"],
+    color: "from-brand-cyan via-brand-purple to-transparent",
+    glow: "rgba(96, 165, 250, 0.4)",
+    borderColor: "hover:border-brand-cyan/40",
+    previewText: "RENDER MATRIX COMPILED",
+    details: "An interactive, GPU-accelerated volumetric simulator that morphs layouts dynamically using custom vertex distortion shaders. The particle system runs at 60fps utilizing raw WebGL shaders and instanced geometry coordinates."
   },
   {
     id: "PRJ.003",
-    title: "SINGULARITY_UI",
-    description: "A premium, futuristic component library featuring glassmorphic designs, CSS custom properties, and spring physics micro-animations for high-fidelity overlays.",
-    tags: ["React 19", "Tailwind CSS", "Framer Motion"],
-    color: "from-brand-cyan via-brand-purple to-transparent",
-    glow: "rgba(0, 243, 255, 0.3)",
-    borderColor: "hover:border-brand-cyan/40",
+    title: "SINGULARITY_CONTROL",
+    description: "A futuristic admin console for managing microservices, WebSocket channels, and bot performance graphs with real-time updating indicators.",
+    tags: ["React", "Express", "WebSockets", "MongoDB"],
+    color: "from-brand-violet via-brand-cyan to-transparent",
+    glow: "rgba(217, 70, 239, 0.45)",
+    borderColor: "hover:border-brand-violet/40",
+    previewText: "WS_LINK STREAM: ESTABLISHED",
+    details: "Singularity Control provides server-side metrics visualizers, shards console logs streaming, and user permission access keys monitoring in a high-fidelity glassmorphic cockpit layout."
   },
   {
     id: "PRJ.004",
     title: "CHRONOS_PIPELINE",
-    description: "A low-latency, real-time WebSocket communication pipeline designed for syncing multiplayer dimensional coordinates and coordinate state matrices.",
-    tags: ["Node.js", "WebSockets", "Redis", "Docker"],
+    description: "A low-latency message broker and task runner designed for automations, webhooks handling, and cron integrations across multiple channels.",
+    tags: ["TypeScript", "Node.js", "REST APIs", "Git"],
     color: "from-brand-purple via-brand-cyan to-transparent",
-    glow: "rgba(189, 0, 255, 0.3)",
+    glow: "rgba(123, 46, 255, 0.4)",
     borderColor: "hover:border-brand-purple/40",
+    previewText: "PIPELINE THREADING ACTIVE",
+    details: "Chronos executes background events and syncs webhooks triggers to Discord integrations in real-time, executing tasks under 5ms using queue threading architectures."
   },
 ];
 
-function ProjectCard({ project }: { project: typeof projects[0] }) {
+function ProjectCard({ project, onClick }: { project: typeof projects[0]; onClick: () => void }) {
   const cardRef = useRef<HTMLDivElement>(null);
+  const sheenRef = useRef<HTMLDivElement>(null);
 
-  // 3D tilt calculation
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const card = cardRef.current;
     const box = card.getBoundingClientRect();
     
-    // Coordinates relative to card center
+    // Relative coordinates to card center
     const x = e.clientX - box.left - box.width / 2;
     const y = e.clientY - box.top - box.height / 2;
     
-    // Tilt limit (approx 10 degrees max)
+    // 3D tilt calculation
     const rotateX = -(y / (box.height / 2)) * 10;
     const rotateY = (x / (box.width / 2)) * 10;
     
     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-    card.style.boxShadow = `0 15px 45px 0 ${project.glow}`;
+    card.style.boxShadow = `0 18px 45px 0 ${project.glow}`;
+
+    // Sheen reflection calculation
+    if (sheenRef.current) {
+      const rx = e.clientX - box.left;
+      const ry = e.clientY - box.top;
+      sheenRef.current.style.background = `radial-gradient(circle 120px at ${rx}px ${ry}px, rgba(255,255,255,0.06), transparent 80%)`;
+    }
   };
 
   const handleMouseLeave = () => {
     if (!cardRef.current) return;
     const card = cardRef.current;
     card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-    card.style.boxShadow = `0 8px 32px 0 rgba(0, 0, 0, 0.5)`;
+    card.style.boxShadow = `0 8px 32px 0 rgba(0, 0, 0, 0.6)`;
+    if (sheenRef.current) {
+      sheenRef.current.style.background = "transparent";
+    }
   };
 
   return (
@@ -76,19 +94,23 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
       ref={cardRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`glass-panel p-6 flex flex-col gap-4 relative overflow-hidden transition-all duration-300 border border-white/5 cursor-pointer ${project.borderColor}`}
+      onClick={onClick}
+      className={`glass-panel p-6 flex flex-col gap-4 relative overflow-hidden transition-all duration-350 border border-white/5 cursor-pointer ${project.borderColor}`}
       style={{
         transformStyle: "preserve-3d",
         transition: "transform 0.1s ease-out, box-shadow 0.3s ease",
       }}
     >
+      {/* Dynamic Sheen reflection overlay */}
+      <div ref={sheenRef} className="absolute inset-0 pointer-events-none z-10 transition-opacity duration-300" />
+
       {/* Holographic Header */}
-      <div className="flex justify-between items-center font-orbitron text-xs text-zinc-500">
+      <div className="flex justify-between items-center font-orbitron text-[10px] text-zinc-500">
         <div className="flex items-center gap-1.5">
           <Terminal className="w-3.5 h-3.5 text-zinc-500" />
           <span>{project.id}</span>
         </div>
-        <span className="text-zinc-500">SYSTEM.ACTIVE</span>
+        <span className="text-zinc-500">NODE.READY</span>
       </div>
 
       {/* Title */}
@@ -106,40 +128,34 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
         {project.tags.map((tag, idx) => (
           <span
             key={idx}
-            className="px-2.5 py-0.5 text-[10px] font-orbitron rounded bg-zinc-950/80 border border-white/5 text-zinc-400"
+            className="px-2.5 py-0.5 text-[9px] font-orbitron rounded bg-zinc-950/85 border border-white/5 text-zinc-400"
           >
             {tag}
           </span>
         ))}
       </div>
 
-      {/* Holographic Scanner Mesh / Energy Grid */}
+      {/* Preview box / mesh design */}
       <div className="relative w-full h-32 mt-4 rounded-lg bg-zinc-950/90 overflow-hidden border border-white/5 group">
         <div className="absolute inset-0 energy-grid opacity-[0.15]" />
         
+        {/* Glowing floating light waves */}
+        <div className="absolute inset-0 bg-radial-gradient from-brand-purple/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        
         {/* Animated Scanner laser line */}
-        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-cyan to-transparent shadow-[0_0_8px_#00f3ff] animate-[scanner_2.5s_infinite_linear]" />
+        <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-brand-purple to-transparent shadow-[0_0_8px_#7B2EFF] animate-[scanner_2.5s_infinite_linear]" />
         
-        {/* Swirling energy aura mockup */}
-        <div className={`absolute bottom-0 left-0 w-full h-full bg-gradient-to-t ${project.color} opacity-[0.04] group-hover:opacity-[0.12] transition-opacity duration-500`} />
+        {/* Swirling energy background preview */}
+        <div className={`absolute bottom-0 left-0 w-full h-full bg-gradient-to-t ${project.color} opacity-[0.04] group-hover:opacity-[0.14] transition-opacity duration-500`} />
         
-        <div className="absolute inset-0 flex items-center justify-center font-orbitron text-[10px] text-zinc-600 tracking-[0.2em] group-hover:text-zinc-400 transition-colors">
-          RENDER_MATRIX_OK
+        <div className="absolute inset-0 flex items-center justify-center font-orbitron text-[9px] text-zinc-600 tracking-[0.2em] group-hover:text-brand-purple transition-colors">
+          {project.previewText}
         </div>
       </div>
 
-      {/* Link Action buttons */}
-      <div className="flex gap-4 mt-4 font-orbitron text-xs text-zinc-400">
-        <button className="flex items-center gap-1.5 hover:text-brand-cyan transition-colors">
-          <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
-          </svg>
-          <span>SOURCE</span>
-        </button>
-        <button className="flex items-center gap-1.5 hover:text-brand-cyan transition-colors">
-          <ExternalLink className="w-4 h-4" />
-          <span>EXECUTE</span>
-        </button>
+      {/* Quick Actions */}
+      <div className="flex gap-4 mt-4 font-orbitron text-[10px] text-zinc-500">
+        <span className="hover:text-brand-purple transition-colors">CLICK TO EXPAND DETAILS</span>
       </div>
 
       <style jsx global>{`
@@ -154,6 +170,8 @@ function ProjectCard({ project }: { project: typeof projects[0] }) {
 }
 
 export default function ProjectsSection() {
+  const [expandedProject, setExpandedProject] = useState<typeof projects[0] | null>(null);
+
   const containerVariants = {
     hidden: {},
     visible: {
@@ -186,6 +204,7 @@ export default function ProjectsSection() {
   return (
     <section className="relative w-full min-h-screen flex flex-col justify-center items-center px-6 py-24 select-none">
       <div className="max-w-5xl w-full flex flex-col gap-12">
+        
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
@@ -198,9 +217,9 @@ export default function ProjectsSection() {
             SEC.03 // ARTIFACT ARCHIVE
           </span>
           <h2 className="text-3xl sm:text-5xl font-extrabold font-syne text-white tracking-wide">
-            ANTI-GRAVITY PROJECTS
+            PROJECT CORE
           </h2>
-          <div className="w-16 h-[2px] bg-brand-purple mt-4 shadow-[0_0_8px_#bd00ff]" />
+          <div className="w-16 h-[2px] bg-brand-purple mt-4 shadow-[0_0_10px_#7B2EFF]" />
         </motion.div>
 
         {/* Project Cards Grid */}
@@ -213,11 +232,90 @@ export default function ProjectsSection() {
         >
           {projects.map((project, idx) => (
             <motion.div key={idx} variants={projectVariants}>
-              <ProjectCard project={project} />
+              <ProjectCard project={project} onClick={() => setExpandedProject(project)} />
             </motion.div>
           ))}
         </motion.div>
       </div>
+
+      {/* Expandable Project Details Modal Overlay */}
+      <AnimatePresence>
+        {expandedProject && (
+          <div className="fixed inset-0 z-[999999] flex items-center justify-center p-4">
+            {/* Dark blur backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setExpandedProject(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-md pointer-events-auto"
+            />
+
+            {/* Modal Glass Panel Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 30 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 30 }}
+              transition={{ type: "spring", damping: 20, stiffness: 100 }}
+              className="glass-panel p-8 max-w-2xl w-full relative z-10 overflow-hidden border border-brand-purple/35 flex flex-col gap-6 shadow-[0_15px_50px_rgba(123,46,255,0.25)] pointer-events-auto"
+            >
+              {/* Top border glowing light line */}
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-brand-purple to-transparent" />
+
+              {/* Close Button */}
+              <button
+                onClick={() => setExpandedProject(null)}
+                className="absolute top-4 right-4 text-zinc-500 hover:text-white transition-colors cursor-pointer"
+                aria-label="Close details"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              {/* HUD tag */}
+              <span className="font-orbitron text-[9px] text-brand-purple tracking-[0.3em] uppercase">
+                {expandedProject.id} // DEEP_ANALYSIS
+              </span>
+
+              {/* Title */}
+              <h3 className="text-2xl sm:text-3xl font-extrabold font-syne text-white tracking-wide">
+                {expandedProject.title}
+              </h3>
+
+              {/* Long details */}
+              <p className="text-zinc-300 text-sm font-sans leading-relaxed">
+                {expandedProject.details}
+              </p>
+
+              {/* Specs */}
+              <div className="flex flex-col gap-2 mt-2">
+                <span className="font-orbitron text-[10px] text-zinc-500 tracking-wider">COMPILATION SPECS:</span>
+                <div className="flex flex-wrap gap-2">
+                  {expandedProject.tags.map((tag, idx) => (
+                    <span
+                      key={idx}
+                      className="px-3 py-1 rounded bg-zinc-950 border border-brand-purple/20 text-xs font-orbitron text-zinc-400"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex gap-4 mt-4">
+                <button className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-brand-purple/30 bg-zinc-950 text-brand-violet hover:text-white hover:border-brand-violet hover:shadow-[0_0_15px_rgba(123,46,255,0.3)] transition-all duration-300 font-orbitron text-xs font-bold tracking-[0.2em] cursor-pointer">
+                  <Code className="w-4 h-4" />
+                  <span>SOURCE CODE</span>
+                </button>
+                <button className="flex items-center gap-2 px-5 py-2.5 rounded-full border border-brand-cyan/30 bg-zinc-950 text-brand-cyan hover:text-white hover:border-brand-cyan hover:shadow-[0_0_15px_rgba(96,165,250,0.3)] transition-all duration-300 font-orbitron text-xs font-bold tracking-[0.2em] cursor-pointer">
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>EXECUTE NODE</span>
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
