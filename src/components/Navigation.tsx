@@ -46,15 +46,15 @@ export default function Navigation({ visible }: { visible: boolean }) {
   if (!visible) return null;
 
   return (
-    <nav className="fixed bottom-8 left-1/2 -translate-x-1/2 z-[999] flex items-center p-1.5 rounded-full bg-zinc-950/40 backdrop-blur-xl border border-brand-purple/15 shadow-[0_10px_35px_rgba(0,0,0,0.8)] pointer-events-auto transition-all duration-500 scale-100 animate-fade-in hover:border-brand-violet/30">
-      <div className="flex items-center gap-1">
+    <nav className="fixed bottom-8 left-1/2 z-[999] flex -translate-x-1/2 items-center rounded-full border border-brand-purple/15 bg-zinc-950/40 p-1.5 shadow-[0_10px_35px_rgba(0,0,0,0.8)] backdrop-blur-xl pointer-events-auto transition-all duration-500 scale-100 animate-fade-in hover:border-brand-violet/30 sm:max-w-none">
+      <div className="flex items-center gap-1 overflow-x-auto whitespace-nowrap [-ms-overflow-style:none] [scrollbar-width:none] sm:overflow-visible sm:whitespace-normal [&::-webkit-scrollbar]:hidden">
         {navItems.map((item) => {
           const isActive = activeSection === item.id;
           return (
             <button
               key={item.id}
               onClick={() => scrollToSection(item.id)}
-              className={`relative px-4 py-2 rounded-full font-orbitron text-[10px] font-bold tracking-[0.2em] transition-all duration-300 pointer-events-auto cursor-pointer ${
+              className={`relative rounded-full px-2 py-2 font-orbitron text-[9px] font-bold tracking-[0.12em] transition-all duration-300 pointer-events-auto cursor-pointer sm:px-4 sm:text-[10px] sm:tracking-[0.2em] ${
                 isActive
                   ? "text-white"
                   : "text-zinc-500 hover:text-zinc-300"

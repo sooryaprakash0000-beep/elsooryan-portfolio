@@ -38,25 +38,25 @@ export default function HeroSection() {
   };
 
   return (
-    <section className="relative w-full min-h-screen flex flex-col justify-center items-center px-4 overflow-hidden select-none">
+    <section className="relative flex min-h-screen w-full max-w-full flex-col items-center justify-center overflow-hidden px-2 py-8 select-none sm:px-4">
       {/* Cinematic HUD elements */}
-      <div className="absolute top-8 left-8 flex items-center gap-3 text-[10px] tracking-[0.3em] text-zinc-500 font-orbitron">
-        <span className="w-1.5 h-1.5 rounded-full bg-brand-purple animate-ping shadow-[0_0_8px_#7B2EFF]" />
+      <div className="absolute left-3 top-4 flex items-center gap-2 text-[8px] tracking-[0.2em] text-zinc-500 font-orbitron sm:left-8 sm:top-8 sm:gap-3 sm:text-[10px] sm:tracking-[0.3em]">
+        <span className="h-1.5 w-1.5 rounded-full bg-brand-purple shadow-[0_0_8px_#7B2EFF] animate-ping" />
         <span>SYSTEM.CORE: INITIALIZED</span>
       </div>
-      
-      <div className="absolute top-8 right-8 text-[10px] tracking-[0.3em] text-zinc-500 font-orbitron flex items-center gap-1">
-        <Terminal className="w-3.5 h-3.5 text-zinc-500" />
+
+      <div className="absolute right-3 top-4 flex items-center gap-1 text-[8px] tracking-[0.2em] text-zinc-500 font-orbitron sm:right-8 sm:top-8 sm:text-[10px] sm:tracking-[0.3em]">
+        <Terminal className="h-3.5 w-3.5 text-zinc-500" />
         <span>SEC_LEVEL.GOJO_99</span>
       </div>
 
-      <div className="flex flex-col items-center justify-center text-center w-full px-6 z-10">
+      <div className="z-10 flex w-full max-w-[100vw] flex-col items-center justify-center overflow-x-hidden px-1 text-center sm:px-6">
         {/* Main Title - ELSOORYAN */}
         <motion.h1
           variants={containerVariants}
           initial="hidden"
           animate="visible"
-          className="font-black font-syne text-white text-center whitespace-nowrap leading-none tracking-[0.03em] drop-shadow-[0_0_35px_rgba(123,46,255,0.4)] text-[clamp(2.5rem,8vw,9rem)]"
+          className="w-full max-w-[95vw] overflow-hidden whitespace-nowrap text-center font-syne font-black leading-none tracking-[0.002em] text-white drop-shadow-[0_0_35px_rgba(123,46,255,0.4)] text-[clamp(1.4rem,8.5vw,9rem)] sm:tracking-[0.03em] sm:text-[clamp(2.5rem,8vw,9rem)]"
         >
           {title.split("").map((letter, idx) => (
             <motion.span
@@ -74,16 +74,16 @@ export default function HeroSection() {
           initial={{ opacity: 0, scale: 0.9, filter: "blur(10px)" }}
           animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
           transition={{ delay: 1.4, duration: 0.8 }}
-          className="mt-6 flex flex-col items-center"
+          className="mt-4 flex w-full max-w-[100vw] flex-col items-center gap-2 px-1 sm:mt-6 sm:px-4"
         >
-          <p className="text-xs sm:text-sm md:text-base font-orbitron tracking-[0.6em] text-brand-purple uppercase animate-energy-pulse">
+          <p className="text-[10px] font-orbitron uppercase tracking-[0.35em] text-brand-purple animate-energy-pulse sm:text-xs sm:tracking-[0.6em] md:text-base">
             {subtitle}
           </p>
 
           {/* Glowing purple dividing line */}
-          <div className="w-32 h-[1px] bg-gradient-to-r from-transparent via-brand-purple to-transparent my-6 relative shadow-[0_0_12px_#7B2EFF]" />
-          
-          <p className="max-w-xl text-xs sm:text-sm text-zinc-400 font-sans tracking-wide leading-relaxed font-light px-4">
+          <div className="relative my-4 h-[1px] w-24 bg-gradient-to-r from-transparent via-brand-purple to-transparent shadow-[0_0_12px_#7B2EFF] sm:my-6 sm:w-32" />
+
+          <p className="max-w-[min(90vw,36rem)] px-1 text-[10px] font-light leading-relaxed tracking-wide text-zinc-400 sm:px-4 sm:text-sm">
             Forging highly scalable bot systems, interactive interfaces, and automation nodes that reside in the digital shadows.
           </p>
         </motion.div>
@@ -105,7 +105,7 @@ export default function HeroSection() {
             aboutSection.scrollIntoView({ behavior: "smooth" });
           }
         }}
-        className="absolute bottom-10 flex flex-col items-center gap-2 cursor-pointer font-orbitron text-[10px] tracking-[0.3em] text-zinc-500 hover:text-brand-purple transition-colors pointer-events-auto"
+        className="pointer-events-auto absolute bottom-6 flex flex-col items-center gap-2 px-4 text-center font-orbitron text-[9px] tracking-[0.2em] text-zinc-500 transition-colors hover:text-brand-purple sm:bottom-10 sm:text-[10px] sm:tracking-[0.3em]"
       >
         <span>ACCESS CORE MODULES</span>
         <MoveDown className="w-4 h-4 text-brand-purple mt-1 animate-bounce" />

@@ -488,7 +488,7 @@ export default function IntroSequence({ onFinish }: IntroSequenceProps) {
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.1 }}
-              className="font-syne text-[clamp(3rem,10vw,6.5rem)] font-black uppercase tracking-[0.3em] text-white drop-shadow-[0_0_24px_rgba(123,46,255,0.7)]"
+              className="max-w-[95vw] whitespace-nowrap px-2 text-center font-syne text-[clamp(2rem,8vw,6.5rem)] font-black uppercase tracking-[0.08em] text-white drop-shadow-[0_0_24px_rgba(123,46,255,0.7)] sm:px-4 sm:text-[clamp(3rem,10vw,6.5rem)] sm:tracking-[0.3em]"
             >
               ELSOORYAN
             </motion.h1>
