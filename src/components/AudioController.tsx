@@ -9,8 +9,7 @@ export default function AudioController() {
 
   useEffect(() => {
     // Cyber/Ambient sci-fi background soundtrack placeholder
-    audioRef.current = new Audio("https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3");
-    audioRef.current.loop = true;
+    audioRef.current = new Audio("/hero-music.mp3.MP3");
     audioRef.current.volume = 0.3; // Low ambient volume
 
     return () => {
